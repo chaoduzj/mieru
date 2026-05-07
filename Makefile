@@ -392,6 +392,7 @@ test-binary:
 # Build docker images to run integration tests.
 .PHONY: test-container-image
 test-container-image: $(TEST_BINARY_PREREQ)
+	docker build -t mieru_socks5:${SHORT_SHA} -f test/deploy/socks5/Dockerfile .
 	docker build -t mieru_basic:${SHORT_SHA} -f test/deploy/basic/Dockerfile .
 	docker build -t mieru_apiclient:${SHORT_SHA} -f test/deploy/apiclient/Dockerfile .
 	docker build -t mieru_apiserver:${SHORT_SHA} -f test/deploy/apiserver/Dockerfile .
@@ -399,11 +400,15 @@ test-container-image: $(TEST_BINARY_PREREQ)
 
 # Run docker integration tests.
 .PHONY: run-container-test
-run-container-test: run-container-test-basic run-container-test-apiclient run-container-test-apiserver run-container-test-proxychain
+run-container-test: run-container-test-socks5 run-container-test-basic run-container-test-apiclient run-container-test-apiserver run-container-test-proxychain
 
 .PHONY: run-container-test-prebuilt
 run-container-test-prebuilt:
 	$(MAKE) TEST_BINARY_PREREQ= run-container-test
+
+.PHONY: run-container-test-socks5
+run-container-test-socks5: test-container-image
+	docker run mieru_socks5:${SHORT_SHA}
 
 .PHONY: run-container-test-basic
 run-container-test-basic: test-container-image

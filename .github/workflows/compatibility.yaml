@@ -37,7 +37,7 @@ jobs:
             "https://github.com/enfein/mieru/releases/download/v${COMPAT_VERSION}/${archive}"
           tar -xzf "/tmp/${archive}" -C bin mieru
           chmod 755 bin/mieru
-      - name: Show build info
+      - name: Show version
         run: |
           bin/mieru version
           bin/mita version
@@ -70,7 +70,7 @@ jobs:
             "https://github.com/enfein/mieru/releases/download/v${COMPAT_VERSION}/${archive}"
           tar -xzf "/tmp/${archive}" -C bin mita
           chmod 755 bin/mita
-      - name: Show build info
+      - name: Show version
         run: |
           bin/mieru version
           bin/mita version
